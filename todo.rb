@@ -1,5 +1,11 @@
 # Modules
 module Menu
+  def menu
+    "What would you like to do?
+    [1] Add
+    [2] Show
+    [Q] Quit"
+  end
 end
 
 # Classes
