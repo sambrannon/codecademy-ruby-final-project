@@ -1,5 +1,8 @@
-# Classes
+# Modules
+module Menu
+end
 
+# Classes
 class List
   attr_reader :all_tasks
 
