@@ -4,6 +4,7 @@ module Menu
     "What would you like to do?
     [1] Add a todo
     [2] Show all todos
+    [3] Write to a fale
     [Q] Quit"
   end
 
@@ -35,12 +36,20 @@ class List
   def show
     all_tasks
   end
+
+  def write_to_file(filename)
+    IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
+  end
 end
 
 class Task
   attr_reader :description
   def initialize(description)
     @description = description
+  end
+
+  def to_s
+    description
   end
 end
 
@@ -60,6 +69,8 @@ if __FILE__ == $PROGRAM_NAME
       my_list.show.each do |task|
         puts "- #{task.description}"
       end
+    when '3'
+      my_list.write_to_file(prompt("Name of file?"))
     else
       puts 'Sorry, I did not understand'
     end
