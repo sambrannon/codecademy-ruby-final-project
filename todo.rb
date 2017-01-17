@@ -5,6 +5,7 @@ module Menu
     [1] Add a todo
     [2] Show all todos
     [3] Write to a fale
+    [4] Read from file
     [Q] Quit"
   end
 
