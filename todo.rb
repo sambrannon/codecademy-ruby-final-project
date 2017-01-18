@@ -40,7 +40,8 @@ class List
     all_tasks.map.with_index { |task, i| "#{i.next}) #{task}" }
   end
 
-  def update
+  def update(task_number, task)
+    all_tasks[task_number.to_i - 1] = task
   end
 
   def delete(task_number)
@@ -89,6 +90,9 @@ if __FILE__ == $PROGRAM_NAME
       end
     when '3'
       #update
+      task_to_update = prompt("Which item to update?")
+      updated_task_description = Task.new(prompt("Updated task description?"))
+      my_list.update(task_to_update, updated_task_description)
     when '4'
       # delete
       my_list.delete(prompt("Which item would you like to delete?"))
