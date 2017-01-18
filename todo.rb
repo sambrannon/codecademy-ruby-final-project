@@ -2,10 +2,11 @@
 module Menu
   def menu
     "What would you like to do?
-    [1] Add a todo
-    [2] Show all todos
-    [3] Write to a fale
-    [4] Read from file
+    [1] Add
+    [2] Show
+    [3] Delete
+    [4] Write to file
+    [5] Read from file
     [Q] Quit"
   end
 
@@ -35,7 +36,11 @@ class List
   end
 
   def show
-    all_tasks
+    all_tasks.map.with_index { |task, i| "#{i.next}) #{task}" }
+  end
+
+  def delete(task_number)
+    all_tasks.delete_at(task_number.to_i - 1)
   end
 
   def write_to_file(filename)
@@ -70,15 +75,22 @@ if __FILE__ == $PROGRAM_NAME
   until ['q'].include?(user_input = prompt(show).downcase)
     case user_input
     when '1'
+      # add
       task = Task.new(prompt("What task would you like to accomplish?"))
       my_list.add(task)
     when '2'
+      # show
       my_list.show.each do |task|
-        puts "- #{task.description}"
+        puts task
       end
     when '3'
-      my_list.write_to_file(prompt("Name of file?"))
+      # delete
+      my_list.delete(prompt("Which item would you like to delete?"))
     when '4'
+      # write
+      my_list.write_to_file(prompt("Name of file?"))
+    when '5'
+      # read
       begin
         my_list.read_from_file(prompt("Name of file?"))
       rescue Errno::ENOENT
