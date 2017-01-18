@@ -8,6 +8,7 @@ module Menu
     [4] Delete
     [5] Write to file
     [6] Read from file
+    [7] Toggle Status
     [Q] Quit"
   end
 
@@ -59,15 +60,19 @@ class List
       add(Task.new(description.join(' : ').strip, status))
     end
   end
+
+  def toggle(task_number)
+    all_tasks[task_number.to_i - 1].toggle_status
+  end
 end
 
 class Task
   attr_reader :description
-  attr_accessor :status
+  attr_accessor :completed_status
 
-  def initialize(description, status = false)
+  def initialize(description, completed_status = false)
     @description = description
-    @status = status
+    @completed_status = completed_status
   end
 
   def to_s
@@ -75,11 +80,15 @@ class Task
   end
 
   def completed?
-    status
+    completed_status
   end
 
   def to_machine
     "#{represent_status} : #{description}"
+  end
+
+  def toggle_status
+    @completed_status = !completed?
   end
 
   private
@@ -125,6 +134,10 @@ if __FILE__ == $PROGRAM_NAME
       rescue Errno::ENOENT
         puts 'File name not found, please verify your file name and path.'
       end
+    when '7'
+      # toggle status
+      puts my_list.show
+      my_list.toggle(prompt("Which item would you like to toggle?"))
     else
       puts 'Sorry, I did not understand'
     end
