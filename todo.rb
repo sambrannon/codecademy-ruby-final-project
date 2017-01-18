@@ -4,9 +4,10 @@ module Menu
     "What would you like to do?
     [1] Add
     [2] Show
-    [3] Delete
-    [4] Write to file
-    [5] Read from file
+    [3] Update
+    [4] Delete
+    [5] Write to file
+    [6] Read from file
     [Q] Quit"
   end
 
@@ -37,6 +38,9 @@ class List
 
   def show
     all_tasks.map.with_index { |task, i| "#{i.next}) #{task}" }
+  end
+
+  def update
   end
 
   def delete(task_number)
@@ -84,12 +88,14 @@ if __FILE__ == $PROGRAM_NAME
         puts task
       end
     when '3'
+      #update
+    when '4'
       # delete
       my_list.delete(prompt("Which item would you like to delete?"))
-    when '4'
+    when '5'
       # write
       my_list.write_to_file(prompt("Name of file?"))
-    when '5'
+    when '6'
       # read
       begin
         my_list.read_from_file(prompt("Name of file?"))
