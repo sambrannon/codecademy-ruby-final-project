@@ -49,24 +49,43 @@ class List
   end
 
   def write_to_file(filename)
-    IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
+    IO.write(filename, @all_tasks.map(&:to_machine).join("\n"))
   end
 
   def read_from_file(filename)
     IO.readlines(filename).each do |line|
-      add(Task.new(line.chomp))
+      status, *description = line.split(' : ')
+      status = status.include?('X')
+      add(Task.new(description.join(' : ').strip, status))
     end
   end
 end
 
 class Task
   attr_reader :description
-  def initialize(description)
+  attr_accessor :status
+
+  def initialize(description, status = false)
     @description = description
+    @status = status
   end
 
   def to_s
     description
+  end
+
+  def completed?
+    status
+  end
+
+  def to_machine
+    "#{represent_status} : #{description}"
+  end
+
+  private
+
+  def represent_status
+    "#{completed? ? '[X]' : '[ ]'}"
   end
 end
 
